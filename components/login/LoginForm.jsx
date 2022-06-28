@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import instagramLogo from '../.././public/images/logos/instagram_logo.png'
 import facebookLogo from '../.././public/images/logos/facebook_logo.png'
+import AuthBtn from '../auth-ui/AuthBtn'
+import { Spinner } from '@chakra-ui/react'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -13,9 +15,14 @@ const LoginForm = () => {
     push('/')
   }
 
-  const [email, setEmail] = useState('')
+  const [userEmailOrUsername, setUserEmailOrUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isPasswordClick, setIsPasswordClick] = useState(false)
+  const [error, setError] = useState({
+    isError: false,
+    message: ''
+  })
+  const [isLoading, setIsLoading] = useState(false)
 
   const onPasswordChange = (e) => {
     setPassword(e)
@@ -27,6 +34,39 @@ const LoginForm = () => {
     })
   }
 
+  const submitHandler = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    let result
+    
+    if(userEmailOrUsername.includes('@')) {
+      result = await signIn('credentials', {
+        email: userEmailOrUsername,
+        password,
+        redirect: false
+      })
+    } else {
+      result = await signIn('credentials', {
+        username: userEmailOrUsername,
+        password,
+        redirect: false
+      })
+    }
+
+    setIsLoading(false)
+    
+    if(result.status === 401) {
+      switch(result.error) {
+        case 'No user found!':
+          setError({ isError: true, message: 'The username you entered doesn\'t belong to an account. Please check your username and try again.' })
+          break
+        case 'Could not log you in!':
+          setError({ isError: true, message: 'Sorry, your password was incorrect. Please double-check your password.'})
+      }
+    }
+
+    console.log(result)
+  }  
 
 
   return (
@@ -37,8 +77,8 @@ const LoginForm = () => {
       </div>
 
       <div className='w-full'>
-        <form className='flex-col justify-center items-center'>
-          <input onChange={(e) => setEmail(e.target.value)} className="w-full block outline-none bg-[#FAFAFA] border border-[#DBDBDB] focus:border-[#A8A8A8] text-xs placeholder:text-xs py-2 px-2 my-1.5" type="email" placeholder="Phone number, username, or email" />
+        <form className='flex-col justify-center items-center' onSubmit={submitHandler}>
+          <input onChange={(e) => setUserEmailOrUsername(e.target.value)} className="w-full block outline-none bg-[#FAFAFA] border border-[#DBDBDB] focus:border-[#A8A8A8] text-xs placeholder:text-xs py-2 px-2 my-1.5" type="text" placeholder="Username, or email" />
           
           <div className='relative'>
             <div onClick={(e) => setIsPasswordClick(!isPasswordClick) } className={`cursor-pointer absolute right-3 bottom-1.5 text-sm font-semibold ${password.trim().length >= 1 ? 'block' : 'hidden'}`}>
@@ -47,8 +87,9 @@ const LoginForm = () => {
             <input onChange={(e) => onPasswordChange(e.target.value)} className="w-full block outline-none bg-[#FAFAFA] border border-[#DBDBDB] focus:border-[#A8A8A8] text-xs placeholder:text-xs py-2 px-2 my-1.5 mb-4" type={!isPasswordClick && password.trim().length !== 1 ? 'password' : 'text'} placeholder="Password" ></input>
           </div>
           
-          <button className={`text-white w-full text-center bg-[#0095F6] rounded font-semibold text-[14px] py-1.5 transition duration-100 ease-in ${password.trim().length >= 6 && email !== '' ? 'opacity-100' : 'opacity-30'}`}>Log In</button>
-        
+          <AuthBtn text={isLoading ? <Spinner /> : 'Log In'} className={`${password.trim().length >= 6 && userEmailOrUsername !== '' ? 'opacity-100' : 'opacity-30'}`}
+            disabled={password.trim().length >= 6 && userEmailOrUsername !== '' ? false : true}
+          ></AuthBtn>
         </form>
       </div>
 
@@ -62,6 +103,12 @@ const LoginForm = () => {
         <span id="facebook__logo" className='mt-1'><Image src={facebookLogo} alt="facebook logo" width={15} height={15}></Image></span>
         <span className='text-center text-sm text-[#385195] font-semibold'>Log in with Facebook</span>
       </button>
+
+      {error.isError && (
+        <div className='text-center font-medium text-red-500 text-sm my-3'>
+          { error.message }
+        </div>
+      )}
 
       <button id="forgot_password" className='mt-3 text-xs'>
         Forgot password?
