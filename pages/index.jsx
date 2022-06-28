@@ -9,7 +9,7 @@ export default function Home() {
         transition={{ type: 'spring', stiffness: 100, duration: 0.5 }}
         
       >
-        <button className='border-2 py-2 px-4 font-bold' onClick={() => signIn({ redirect: false, callbackUrl: '/'})}> {/* when it's clicked, it'll bring to signin page */}
+        <button className='border-2 py-2 px-4 font-bold' onClick={signIn}> {/* when it's clicked, it'll bring to signin page */}
           Click me
         </button>
       </motion.div>
