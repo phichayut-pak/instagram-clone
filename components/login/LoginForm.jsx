@@ -2,7 +2,8 @@ import Image from 'next/image'
 import instagramLogo from '../.././public/images/logos/instagram_logo.png'
 import facebookLogo from '../.././public/images/logos/facebook_logo.png'
 import AuthBtn from '../auth-ui/AuthBtn'
-import { Spinner } from '@chakra-ui/react'
+
+import RotateLoader from 'react-spinners/RotateLoader'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -87,7 +88,7 @@ const LoginForm = () => {
             <input onChange={(e) => onPasswordChange(e.target.value)} className="w-full block outline-none bg-[#FAFAFA] border border-[#DBDBDB] focus:border-[#A8A8A8] text-xs placeholder:text-xs py-2 px-2 my-1.5 mb-4" type={!isPasswordClick && password.trim().length !== 1 ? 'password' : 'text'} placeholder="Password" ></input>
           </div>
           
-          <AuthBtn text={isLoading ? <Spinner /> : 'Log In'} className={`${password.trim().length >= 6 && userEmailOrUsername !== '' ? 'opacity-100' : 'opacity-30'}`}
+          <AuthBtn text={isLoading ? <RotateLoader size={6} margin={-17} color={'white'}/> : 'Log In'} className={`${password.trim().length >= 6 && userEmailOrUsername !== '' ? 'opacity-100' : 'opacity-30'}`}
             disabled={password.trim().length >= 6 && userEmailOrUsername !== '' ? false : true}
           ></AuthBtn>
         </form>
