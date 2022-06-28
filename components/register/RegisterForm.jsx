@@ -7,7 +7,7 @@ import axios from 'axios'
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Spinner } from '@chakra-ui/react'
+import RotateLoader from 'react-spinners/RotateLoader'
 
 
 const RegisterForm = () => {
@@ -168,7 +168,7 @@ const RegisterForm = () => {
 
           
 
-          <AuthBtn text={isLoading ? <Spinner size="lg" /> : 'Sign up'} className={`${password.trim().length >= 6 && email !== '' && fullname !== '' && username !== '' ? 'opacity-100' : 'opacity-30'}`}
+          <AuthBtn text={isLoading ? <RotateLoader size={6} margin={-17} color={'white'} /> : 'Sign up'} className={`${password.trim().length >= 6 && email !== '' && fullname !== '' && username !== '' ? 'opacity-100' : 'opacity-30'}`}
             disabled={password.trim().length >= 6 && email !== '' && fullname !== '' && username !== '' ? false : true}
           ></AuthBtn>
         </form>
