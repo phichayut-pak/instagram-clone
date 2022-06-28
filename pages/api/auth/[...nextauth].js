@@ -64,6 +64,7 @@ export default NextAuth({
     }
   },
   pages: {
-    signIn: '/auth'
-  }
+    signIn: '/auth/signin'
+  },
+  secret: 'secretmakmak'
 })

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 export default function Home() {
-  const { push } = useRouter()
+  const { push, asPath } = useRouter()
   
   return (
     <div className="min-h-screen flex justify-center items-center">
