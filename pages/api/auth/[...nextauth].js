@@ -53,7 +53,7 @@ export default NextAuth({
   },
   adapter:  MongoDBAdapter(clientPromise),
   session: {
-    strategy: 'jwt'
+    strategy: 'database'
   },
   callbacks: {
     async jwt({ token, account }) {
