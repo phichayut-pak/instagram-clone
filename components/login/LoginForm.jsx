@@ -29,10 +29,12 @@ const LoginForm = () => {
     setPassword(e)
   }
 
-  const facebookLoginHandler = () => {
-    signIn('facebook', {
+  const facebookLoginHandler = async () => {
+    const result = await signIn('facebook', {
       callbackUrl: '/'
     })
+
+    console.log(result)
   }
 
   const submitHandler = async (e) => {

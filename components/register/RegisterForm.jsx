@@ -30,6 +30,7 @@ const RegisterForm = () => {
     isError: false,
     message: ''
   })
+  const [facebookBtnMessage, setFacebookBtnMessage] = useState('Log in with Facebook')
 
   const onPasswordChange = (e) => {
     setPassword(e);
@@ -95,8 +96,9 @@ const RegisterForm = () => {
       </div>
 
       <button
-        className="bg-[#0095F6] w-full py-1 rounded inline-flex justify-center items-center space-x-2"
+        className="bg-[#0095F6] w-full py-1 rounded inline-flex justify-center items-center space-x-2 transition duration-100 ease-in opacity-50"
         onClick={facebookLoginHandler}
+        disabled
       >
         <span id="facebook__logo" className="mt-1">
           <Image

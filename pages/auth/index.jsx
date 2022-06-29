@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Login from '../../components/login/Login'
 import Register from '../../components/register/Register'
 import Head from 'next/head'
+import { getSession } from 'next-auth/next'
 
 const AuthPage = () => {
   const [isLoginPage, setIsLoginPage] = useState(true)
@@ -21,6 +22,23 @@ const AuthPage = () => {
       {isLoginPage ? <Login clickSignup={onClickIsLoginPage}/> : <Register clickLogin={onClickIsLoginPage} />}
     </div>  
   )
+}
+
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context)
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/'
+      }
+    }
+  }
+  return {
+    props: {
+      session
+    }
+  }
 }
 
 export default AuthPage
