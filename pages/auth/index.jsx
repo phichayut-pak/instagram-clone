@@ -3,15 +3,21 @@ import { useState } from 'react'
 import Login from '../../components/login/Login'
 import Register from '../../components/register/Register'
 import Head from 'next/head'
-import { getSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 const AuthPage = () => {
+  const router = useRouter()
   const [isLoginPage, setIsLoginPage] = useState(true)
+  const { data: session } = useSession()
 
   const onClickIsLoginPage = () => {
     setIsLoginPage(!isLoginPage)
   }
 
+  if(session) {
+    router.push('/')
+  }
 
   return (
 
