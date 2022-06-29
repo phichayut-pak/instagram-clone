@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Login from '../../components/login/Login'
 import Register from '../../components/register/Register'
 import Head from 'next/head'
-import { getSession } from 'next-auth/next'
+import { getSession } from 'next-auth/react'
 
 const AuthPage = () => {
   const [isLoginPage, setIsLoginPage] = useState(true)
