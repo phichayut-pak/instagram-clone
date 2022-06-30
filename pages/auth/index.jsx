@@ -11,14 +11,8 @@ const AuthPage = () => {
   const [isLoginPage, setIsLoginPage] = useState(true)
   const { data: session, error } = useSession()  
 
-  if(error) {
-    console.log(error)
-  }
-  
-  if(session) {
-    console.log(session)
-  }
-
+  console.log(error)
+  console.log(session)
 
   const onClickIsLoginPage = () => {
     setIsLoginPage(!isLoginPage)
