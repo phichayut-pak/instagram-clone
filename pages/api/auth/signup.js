@@ -14,7 +14,7 @@ const handler = async (req, res) => {
   }
 
   const client = await connectToDatabase()
-  const db = await client.db()
+  const db = await client.db('auth')
   const usersCollection = await db.collection('users')
 
   const existingUser = await usersCollection.findOne({ email: email })

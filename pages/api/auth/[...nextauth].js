@@ -67,7 +67,7 @@ export default NextAuth({
       session.accessToken = token.accessToken
       
       const client = await connectToDatabase()
-      const db = await client.db()
+      const db = await client.db('auth')
       const usersCollection = await db.collection('users')
   
       const users = await usersCollection.findOne({ email: session.user.email })

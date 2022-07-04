@@ -9,10 +9,7 @@ import { useRouter } from 'next/router'
 const AuthPage = () => {
   const router = useRouter()
   const [isLoginPage, setIsLoginPage] = useState(true)
-  const { data: session, error } = useSession()  
-
-  console.log(error)
-  console.log(session)
+  const { data: session, status } = useSession()  
 
   const onClickIsLoginPage = () => {
     setIsLoginPage(!isLoginPage)
