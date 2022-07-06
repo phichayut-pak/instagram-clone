@@ -16,7 +16,7 @@ const PostCard = ({ image, author_username, caption, timestamp }) => {
   }, [])
 
   return (
-    <div className='flex flex-col justify-center items-center max-w-2xl bg-white rounded-md pb-3 border'>
+    <div className='flex flex-col justify-center items-center bg-white rounded-md pb-3 border'>
 
       <div id="post_profile" className='py-3 px-2 w-full inline-flex justify-start items-center space-x-3'>
           <Image src={defaultInstagramPfp} width={30} height={35} />
@@ -27,7 +27,8 @@ const PostCard = ({ image, author_username, caption, timestamp }) => {
 
       <div id="post_image" className='w-96 h-96'>
         <img src={image} className='h-full w-full' alt="" />
-      </div>  
+      </div> 
+
 
       <div className='w-full inline-flex justify-between items-center p-2'>
 
