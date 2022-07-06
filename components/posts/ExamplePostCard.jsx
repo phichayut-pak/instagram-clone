@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 import { parseISO, formatDistanceToNow } from 'date-fns'
 
 import defaultInstagramPfp from '../../public/images/default_instagram_pfp.png'
-const PostCard = ({ image, author_username, caption, timestamp }) => {
+const ExamplePostCard = ({ image, author_username, caption, timestamp }) => {
   const [timeAgo, setTimeAgo] = useState('')
 
   useEffect(() => {
@@ -67,4 +67,4 @@ const PostCard = ({ image, author_username, caption, timestamp }) => {
   )
 }
 
-export default PostCard
+export default ExamplePostCard

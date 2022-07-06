@@ -1,33 +1,31 @@
-import { IncomingForm } from "formidable";
-import { promises as fs } from "fs";
+import { connectToDatabase } from '../../../db/connectToDatabase'
 
-var mv = require("mv");
+const handler = async (req, res) => {
+  if(req.method !== 'POST') {
+    return
+  }
 
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// };
+  const { author_email, author_username, caption, image_url } = req.body
+  const date = new Date()
 
-// export default handler = async (req, res) => {
-//   const data = await new Promise((resolve, reject) => {
-//     const form = new IncomingForm();
+  if(!caption || !image_url) {
+    res.status(422).json({
+      message: 'Invalid input!'
+    })
+  }
 
-//     form.parse(req, (err, fields, files) => {
-//       if (err) return reject(err);
-//       console.log(fields, files);
-//       console.log(files.file.filepath);
-//       var oldPath = files.file.filepath;
-//       var newPath = `../../../public/uploads/${files.file.originalFilename}`;
-//       mv(oldPath, newPath, function (err) {});
-//       res.status(200).json({ fields, files });
-//     });
-//   });
-// };
+  const client = await connectToDatabase()
+  const db = await client.db('posts')
+  const postsCollection = await db.collection('posts')
 
+  
+  const result = await postsCollection.insertOne({ author_email, author_username, caption, image_url, date })
 
-export default handler = async (req, res) => {
+  client.close()
+
   res.status(200).json({
-    message: req.body.body
+    message: 'Created Post!'
   })
 }
+
+export default handler

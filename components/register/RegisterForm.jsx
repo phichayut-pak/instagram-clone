@@ -10,7 +10,7 @@ import { useState } from "react";
 import RotateLoader from 'react-spinners/RotateLoader'
 
 
-const RegisterForm = () => {
+const RegisterForm = ({ clickLogin }) => {
   const { push } = useRouter();
   const { data: session } = useSession();
 
@@ -55,7 +55,11 @@ const RegisterForm = () => {
       }, { headers: {'Content-Type': 'application/json'}})
       
       const data = await response.data
-      console.log(data)
+
+      if(data.message === 'Created User!') {
+        clickLogin()
+      }
+
     } catch(err) {
       const { response } = err
 

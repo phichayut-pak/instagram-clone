@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import Loading from '../components/Loading'
 import Router from 'next/router'
+import Head from 'next/head'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter()
@@ -17,7 +18,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
 
   return (
-    <>
+    <>  
+      <Head>
+        <link data-default-icon="https://static.cdninstagram.com/rsrc.php/v3/y9/r/uhXzVt-dlj4.png" rel="icon" sizes="192x192" href="https://static.cdninstagram.com/rsrc.php/v3/y9/r/uhXzVt-dlj4.png" />
+      </Head>
       { loading && <Loading />}
       
       { !loading && (

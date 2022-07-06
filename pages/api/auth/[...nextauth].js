@@ -17,7 +17,7 @@ export default NextAuth({
       async authorize(credentials) {
         const client = await connectToDatabase();
 
-        const usersCollection = client.db().collection('users');
+        const usersCollection = client.db('auth').collection('users');
 
         const whatToFind = credentials.email ? { email: credentials.email } : { username: credentials.username}
 
@@ -73,7 +73,8 @@ export default NextAuth({
       const users = await usersCollection.findOne({ email: session.user.email })
       session.user.username = users.username || 'None'
       session.user.fullname = users.fullname || 'None'
-  
+      
+      client.close()
   
       return session
     }

@@ -5,7 +5,7 @@ import ToLogin from './ToLogin'
 const Register = ({ clickLogin }) => {
   return (
     <div className='flex flex-col justify-center items-center space-y-3'>
-      <RegisterForm></RegisterForm>
+      <RegisterForm clickLogin={clickLogin}></RegisterForm>
       <ToLogin onClickLogin={clickLogin}></ToLogin>
     </div>
   )

@@ -38,7 +38,7 @@ const Navbar = ({ children }) => {
 
   return (
     <>
-      { isMobile ? <MobileNavbar> { children }</MobileNavbar> : <DesktopNavbar> { children }</DesktopNavbar> }
+      { isMobile ? <MobileNavbar> { children }</MobileNavbar> : <DesktopNavbar> { children } </DesktopNavbar> }
     </>
   )
 }

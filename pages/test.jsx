@@ -1,45 +1,96 @@
-import React, { useState } from 'react'
-import Image from 'next/image';
-import axios from 'axios'
+import { useState } from 'react';
+import Head from 'next/head'
+import styles from '../styles/Home.module.scss'
+import Image from 'next/image'
 
-const TestPage = () => {
-  const [image, setImage] = useState(null);
-  const [createObjectURL, setCreateObjectURL] = useState(null);
+export default function Home() {
+  const [imageSrc, setImageSrc] = useState();
+  const [uploadData, setUploadData] = useState();
 
-  const uploadToClient = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
+  /**
+   * handleOnChange
+   * @description Triggers when the file input changes (ex: when a file is selected)
+   */
 
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
+  function handleOnChange(changeEvent) {
+    const reader = new FileReader();
+
+    reader.onload = function(onLoadEvent) {
+      setImageSrc(onLoadEvent.target.result);
+      setUploadData(undefined);
     }
-  };
 
-  const uploadToServer = async (event) => {        
-    const body = new FormData();
-    body.append("file", image);    
-    const response = await axios.post("http://localhost:3000/api/posts/upload", {
-      body
-    });
+    reader.readAsDataURL(changeEvent.target.files[0]);
+  }
 
-    const { data } = response
+  /**
+   * handleOnSubmit
+   * @description Triggers when the main form is submitted
+   */
+
+  async function handleOnSubmit(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const fileInput = Array.from(form.elements).find(({ name }) => name === 'file');
+
+    const formData = new FormData();
+
+    for ( const file of fileInput.files ) {
+      formData.append('file', file);
+    }
+
+    formData.append('upload_preset', 'instagram-clone');
+
+    const data = await fetch('https://api.cloudinary.com/v1_1/dcxhciyca/image/upload', {
+      method: 'POST',
+      body: formData
+    }).then(r => r.json());
+
+    setImageSrc(data.secure_url);
+    setUploadData(data);
     console.log(data)
-
-  };
+  }
 
   return (
-    <div className='min-h-screen flex flex-col justify-center items-center space-y-10'>
-      {createObjectURL && <Image src={createObjectURL} width={100} height={100} alt="test image"/> }
-      <input type="file" name="myImage" onChange={uploadToClient} className="text-center ml-16" />
-      <button
-        className="btn btn-primary"
-        type="submit"
-        onClick={uploadToServer}
-      >
-        Send to server
-      </button>
+    <div className={styles.container}>
+      <Head>
+        <title>Image Uploader</title>
+        <meta name="description" content="Upload your image to Cloudinary!" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main className={styles.main}>
+        <h1 className={styles.title}>
+          Image Uploader
+        </h1>
+
+        <p className={styles.description}>
+          Upload your image to Cloudinary!
+        </p>
+
+        <form className={styles.form} method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
+          <p>
+            <input type="file" name="file" />
+          </p>
+          
+          {imageSrc && <Image src={imageSrc} alt="test" width={100} height={100}/>}
+          
+          {imageSrc && !uploadData && (
+            <p>
+              <button>Upload Files</button>
+            </p>
+          )}
+
+          {uploadData && (
+            <code><pre>{JSON.stringify(uploadData, null, 2)}</pre></code>
+          )}
+        </form>
+      </main>
+
+      <footer className={styles.footer}>
+        <p>Find the tutorial on <a href="https://spacejelly.dev/">spacejelly.dev</a>!</p>
+      </footer>
     </div>
   )
 }
-
-export default TestPage
