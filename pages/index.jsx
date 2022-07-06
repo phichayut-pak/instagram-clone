@@ -5,7 +5,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import axios from 'axios'
 
-import Navbar from '../components/Navbar/Navbar'
+import Navbar from '../components/navbar/Navbar'
 import PostCard from '../components/posts/ExamplePostCard'
 
 
