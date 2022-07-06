@@ -15,8 +15,8 @@ const Caption = ({ image, caption, onChangeCaption }) => {
   return (
     <>
       <div className='w-full h-96 lg:h-[40rem] grid grid-cols-6 grid-flow-row'>
-        <div className='col-span-4'>
-          <img src={givenImageURL} alt="post image" className='w-full h-full'></img>
+        <div className='col-span-4 h-96 lg:h-[40rem] flex justify-center items-center'>
+            <img src={givenImageURL} alt="post image" className='h-full'></img>
         </div>
 
         <div className='flex flex-col justify-start items-center col-span-2'>
