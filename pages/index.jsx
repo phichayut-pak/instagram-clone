@@ -30,11 +30,16 @@ export default function Home({ posts }) {
   )
 }
 
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   const session = await getSession(context)
 
-  const response = await axios.get('http://localhost:3000/api/posts/get_posts')
-  const { data } = response
+  const response = await fetch('http://localhost:3000/api/posts/get_posts', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  const data = await response.json()
 
 
   if(!session) {
@@ -53,3 +58,4 @@ export const getStaticProps = async (context) => {
   }
 
 }
+
