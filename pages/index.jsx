@@ -7,7 +7,7 @@ import axios from 'axios'
 
 import Navbar from '../components/navbar/Navbar'
 import PostCard from '../components/posts/ExamplePostCard'
-
+import SkeletonPostCard from '../components/posts/SkeletonPostCard'
 
 export default function Home() {
   const { push, asPath } = useRouter()
@@ -41,8 +41,14 @@ export default function Home() {
       <Navbar>
         <div className='flex flex-col justify-center items-center py-16 space-y-3'>
 
-          {/* {posts.length === 0 && 'Loading...'} */}
-          {posts.reverse().map(post => <PostCard key={post._id} image={post.image_url} author_username={post.author_username} caption={post.caption} timestamp={post.date}></PostCard>)}
+          {posts.length === 0 && (
+            <>
+              <SkeletonPostCard />
+              <SkeletonPostCard />
+              <SkeletonPostCard />
+            </>
+          )}
+          {posts.length > 0 && posts.reverse().map(post => <PostCard key={post._id} image={post.image_url} author_username={post.author_username} caption={post.caption} timestamp={post.date}></PostCard>)}
 
         </div>
       </Navbar>
