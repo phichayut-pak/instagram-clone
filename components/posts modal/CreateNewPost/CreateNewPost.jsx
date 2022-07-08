@@ -35,6 +35,8 @@ const CreateNewPost = () => {
     const selectedImage = image
     const selectedCaption = caption
     
+    
+
     if(!selectedImage && !selectedCaption) { 
       reload()
     }
@@ -48,7 +50,7 @@ const CreateNewPost = () => {
       body: formData
     }).then(r => r.json())
       .catch(err => {
-        console.log(err)
+        console.log('ERROR | post image')
         reload()
       })
 
@@ -58,6 +60,13 @@ const CreateNewPost = () => {
       console.log('An Error Occurred | No Secure URL')
     }
 
+    console.log({
+      author_email: session.user.email,
+      author_username: session.user.username,
+      caption,
+      image_url: secure_url
+    })
+
     if(secure_url) {
       const response = await axios.post('http://localhost:3000/api/posts/upload', {
           author_email: session.user.email,
@@ -65,7 +74,7 @@ const CreateNewPost = () => {
           caption,
           image_url: secure_url
       })
-  
+      
       const data = response.data
       
       if(data.message === 'Created Post!') {

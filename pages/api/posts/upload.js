@@ -8,7 +8,7 @@ const handler = async (req, res) => {
   const { author_email, author_username, caption, image_url } = req.body
   const date = new Date()
 
-  if(!caption || !image_url) {
+  if(!caption || !image_url || !author_email || !author_username) {
     res.status(422).json({
       message: 'Invalid input!'
     })
@@ -29,3 +29,4 @@ const handler = async (req, res) => {
 }
 
 export default handler
+
