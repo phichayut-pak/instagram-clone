@@ -24,7 +24,7 @@ export default function Home() {
       
       const { posts } = data
       for(const post of posts) {
-        setPosts(prev => [...prev, post])
+        setPosts(prev => [post, ...prev])
       }
     }
 
@@ -84,4 +84,3 @@ export const getServerSideProps = async (context) => {
   }
 
 }
-

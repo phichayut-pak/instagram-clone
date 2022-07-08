@@ -60,10 +60,10 @@ const CreateNewPost = () => {
 
     if(secure_url) {
       const response = await axios.post('http://localhost:3000/api/posts/upload', {
-        author_email: session.user.email,
-        author_username: session.user.username,
-        caption,
-        image_url: secure_url
+          author_email: session.user.email,
+          author_username: session.user.username,
+          caption,
+          image_url: secure_url
       })
   
       const data = response.data
