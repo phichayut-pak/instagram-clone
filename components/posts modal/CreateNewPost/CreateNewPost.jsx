@@ -68,7 +68,7 @@ const CreateNewPost = () => {
     })
 
     if(secure_url) {
-      const response = await axios.post('http://localhost:3000/api/posts/upload', {
+      const response = await axios.post('/api/posts/upload', {
           author_email: session.user.email,
           author_username: session.user.username,
           caption,
