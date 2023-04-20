@@ -12,6 +12,7 @@ import SkeletonPostCard from '../components/posts/SkeletonPostCard'
 export default function Home() {
   const { push, asPath } = useRouter()
   const { data: session } = useSession()
+  console.log(session)
 
   const [posts, setPosts] = useState([])
 
